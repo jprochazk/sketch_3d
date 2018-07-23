@@ -1,6 +1,9 @@
 //is screen centered? (only once)
 boolean cen=false;
 
+//wall of debug text
+boolean debugText;
+
 //adjust camera during right click?
 boolean adjCam;
 
@@ -46,6 +49,9 @@ PImage grass = new PImage();
 void setup(){
   //size of the window, use 3d rendered
   size(1600,900,P3D);
+  
+  //uncomment if you want to see wall of debug text
+  debugText = true;
   
   x2=width/2;
   y2=height/2;
@@ -120,22 +126,32 @@ void draw(){
   float addX = ((sh) ? spd*cos(radians(frotZ))*4 : spd*cos(radians(frotZ)));
   float addY = ((sh) ? spd*sin(radians(frotZ))*4 : spd*sin(radians(frotZ)));
   
-  //wall of debug text, uncomment if you want to see it
-  //text("x: "+loc.x+", y: "+loc.y+", z: "+loc.z+"\n"+"+x: "+addX+", +y: "+addY+"\nshift: "+sh+", space: "+sp+", z2: "+z2+", adjust cam: "+adjCam+"\n"+"frotZ: "+frotZ+", frotX: "+frotX+"\ncamRotZ: "+camRotZ+", camRotX: "+camRotX,20,40);
+  if(debugText){ text("x: "+loc.x+", y: "+loc.y+", z: "+loc.z+"\n"+"+x: "+addX+", +y: "+addY+"\nshift: "+sh+", space: "+sp+", z2: "+z2+", adjust cam: "+adjCam+"\n"+"frotZ: "+frotZ+", frotX: "+frotX+"\ncamRotZ: "+camRotZ+", camRotX: "+camRotX,20,40); }
   
+  textAlign(RIGHT);
+  text("Move around with WASD, jump with Spacebar\nTest the movement and see what's possible\n\nRotate camera while holding LMB\nRotate player while holding RMB",width-20,120);
+  textAlign(LEFT);
   //change color of buttons at the top right depending on whether they're highlighted or not
   if(mouseX > width-100 && mouseY < 50){
-    fill(200,200,200);
+    fill(155);
+    rect(width-110,20,90,40);
+    fill(255);
     text("RESET",width-100,50);
   } else {
+    fill(80);
+    rect(width-110,20,90,40);
     fill(255);
     text("RESET",width-100,50);
   }
   
   if(adjCam){
-    fill(200,200,200);
+    fill(125);
+    rect(width-310,20,175,40);
+    fill(255);
     text("ADJUST CAM",width-300,50);
   } else {
+    fill(80);
+    rect(width-310,20,175,40);
     fill(255);
     text("ADJUST CAM",width-300,50);
   }
@@ -152,7 +168,7 @@ void mousePressed(){
   }
   
   //reset button
-  if(mouseX > width-100 && mouseY < 50){
+  if(mouseX > width-110 && mouseX<width-20 && mouseY < 60){
     camRotZ=0;
     camRotX=75;
     frotZ=0;
@@ -162,7 +178,7 @@ void mousePressed(){
   } 
   
   //adjust cam button
-  if(mouseX > width-300 && mouseX<width-100 && mouseY < 50){
+  if(mouseX > width-310 && mouseX<width-135 && mouseY < 60){
     if(adjCam){
       adjCam = false;
     } else {
